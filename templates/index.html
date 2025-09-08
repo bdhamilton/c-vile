@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>C-VILE</title>
+    <script src="https://unpkg.com/htmx.org@1.9.10"></script>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <header>
+        <a href="https://c-ville.com/">
+            <img src="/static/logo.png" height="50" alt="C-VILE">
+        </a>
+    </header>
+
+    <main>
+        <section>
+            <div id="gripe" hx-get="/random-gripe" hx-trigger="load">
+            </div>
+        </section>
+
+        <nav aria-label="Main navigation">
+            <button 
+                hx-post="/submit-a-gripe" 
+                hx-prompt="What's your gripe?"
+                hx-target="body"
+                hx-swap="beforeend">
+                    Submit your own
+            </button>
+
+            <button 
+                hx-get="/random-gripe" 
+                hx-target="#gripe" 
+                hx-swap="innerText">
+                    Another →
+            </button>
+        </nav>
+    </main>
+</body>
+</html>

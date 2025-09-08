@@ -1,0 +1,123 @@
+import random
+from datetime import datetime
+from flask import Flask, render_template, request, Response
+import json
+import os
+import bleach
+from functools import wraps
+import base64
+
+app = Flask(__name__)
+
+# --------------------
+# CONFIG
+# --------------------
+
+SUBMISSIONS_FILE = "submissions.json"
+GRIPES_FILE = "gripes.json"
+
+ADMIN_USER = "gripemaster"
+ADMIN_PASS = "I love to gripe!"
+
+# --------------------
+# FILE PERSISTENCE
+# --------------------
+
+def load_gripes(filename = GRIPES_FILE):
+    """Load JSON file, return empty list if file doesn't exist or is empty"""
+    try:
+        if os.path.exists(filename):
+            with open(filename, 'r') as f:
+                content = f.read().strip()
+                if content:
+                    return json.loads(content)
+        return []
+    except (json.JSONDecodeError, FileNotFoundError):
+        return ["No gripes."]
+
+def save_gripes(data, filename = GRIPES_FILE):
+    """Save data to JSON file"""
+    with open(filename, 'w') as f:
+        json.dump(data, f, indent=2)
+
+# --------------------
+# PUBLIC ROUTES
+# --------------------
+
+@app.route("/")
+def gripe():
+    return render_template('index.html')
+
+@app.route("/random-gripe")
+def get_a_gripe():
+    return random.choice(gripes)
+
+@app.post("/submit-a-gripe")
+def submit_a_gripe():
+    gripe = request.headers.get('HX-Prompt')
+    
+    if gripe and gripe.strip():
+        clean_gripe = bleach.clean(gripe.strip(), tags=[], strip=True)
+
+        submission = {
+            'text': clean_gripe,
+            'timestamp': datetime.now().isoformat(),
+            'status': 'pending'
+        }
+
+        submissions = load_gripes(SUBMISSIONS_FILE)
+        submissions.append(submission)
+        save_gripes(submissions, SUBMISSIONS_FILE)
+
+    return '<div id="gripe-alert">Thanks for griping.</div>'
+
+# --------------------
+# AUTHENTICATION
+# --------------------
+
+def check_auth(username, password):
+    """Check if a username/password combination is valid"""
+    return username == ADMIN_USER and password == ADMIN_PASS
+
+def authenticate():
+    """Send a 401 response that enables basic auth"""
+    return Response(
+        'You really want to see all the gripes?\n'
+        'You\'re going to have to log in.', 401,
+        {'WWW-Authenticate': 'Basic realm="Admin Area"'})
+
+def requires_auth(f):
+    @wraps(f)
+    def decorated(*args, **kwargs):
+        auth = request.authorization
+        if not auth or not check_auth(auth.username, auth.password):
+            return authenticate()
+        return f(*args, **kwargs)
+    return decorated
+
+# --------------------
+# ADMIN ROUTES
+# --------------------
+
+@app.get("/gripes")
+@requires_auth
+def admin_page():
+    return render_template("admin.html", gripes=load_gripes())
+
+gripes = [
+    'Empty storefronts on the Downtown Mall.',
+    'UVA officially takes possession of FEI.',
+    'John McGuire.',
+    'Former UVA prez Jim Ryan moves out of Carr’s Hill.',
+    'Police Civilian Review Board executive director resigns.',
+    'Alakazam Toys closes.',
+    'UVA students return to Grounds.',
+    'Rush hour on the bypass.',
+    'C&O bar closed all summer.',
+    'Poop on the Downtown Mall.',
+    'Yogaville lawsuit.',
+    'New speeding cameras.',
+    'Spotted lanternflies.',
+    'Characters on “The Summer I Turned Pretty” asking, “Who’s Dave Matthews?”',
+    'Zoning code debacle.'
+]

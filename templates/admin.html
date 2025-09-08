@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>C-VILE Admin</title>
+    <script src="https://unpkg.com/htmx.org@1.9.10"></script>
+    <style>
+        body {
+            margin: 0;
+            font-family: system-ui, sans-serif;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            background: #f8f8e8;
+        }
+
+        header {
+            text-align: center;
+            padding: 2rem;
+            font-size: 2rem;
+            position: relative;
+        }
+
+        main {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        section {
+            flex: 1;
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2rem;
+            padding: 2rem;
+            overflow: hidden;
+        }
+
+        @media (min-width: 768px) {
+            section {
+                grid-template-columns: 1fr 2fr;
+            }
+            
+            #recent-submissions {
+                order: 1;
+            }
+            
+            #current-gripes {
+                order: 2;
+            }
+        }
+
+        article {
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        #recent-submissions {
+            background: #efefdf;
+            padding: 1.5rem;
+            font-size: 0.9em;
+            color: #555;
+        }
+
+        #current-gripes {
+            padding: 1.5rem;
+        }
+
+        h2 {
+            margin-top: 0;
+            margin-bottom: 1rem;
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+
+        textarea {
+            width: 100%;
+            min-height: 80px;
+            padding: 0.5rem;
+            border: 1px solid #ccc;
+            resize: vertical;
+            box-sizing: border-box;
+        }
+
+        .submit-form-btn, .delete-btn {
+            padding: 0.5rem 1rem;
+            background: none;
+            border: 1px solid black;
+            cursor: pointer;
+            margin: 0.25rem;
+        }
+
+        #gripes {
+            flex: 1;
+            overflow-y: auto;
+        }
+
+        #gripes ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        #gripes li {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.75rem 0;
+            border-bottom: 1px solid #ddd;
+        }
+
+        #gripes span {
+            flex: 1;
+            margin-right: 1rem;
+        }
+
+        nav {
+            display: flex;
+            justify-content: center;
+            padding: 2rem;
+        }
+
+        .nav-btn {
+            padding: 1rem 2rem;
+            font-size: 1rem;
+            background: none;
+            border: 1px solid black;
+            cursor: pointer;
+            text-decoration: none;
+            color: black;
+        }
+
+        .submissions-list {
+            flex: 1;
+            overflow-y: auto;
+        }
+
+        .submissions-list ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .submissions-list li {
+            padding: 0.75rem 0;
+            border-bottom: 1px solid #ccc;
+        }
+
+        .submission-text {
+            display: block;
+            margin-bottom: 0.25rem;
+        }
+
+        .submission-meta {
+            font-size: 0.8em;
+            color: #777;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        C-VILE
+    </header>
+
+    <main>
+        <section>
+            <article id="recent-submissions">
+                <h2>Recent Submissions</h2>
+                <div class="submissions-list">
+                    <ul>
+                        <li>
+                            <span class="submission-text">People who don't pick up after their dogs</span>
+                            <span class="submission-meta">2 hours ago • pending</span>
+                        </li>
+                        <li>
+                            <span class="submission-text">Construction noise at 6 AM</span>
+                            <span class="submission-meta">4 hours ago • pending</span>
+                        </li>
+                        <li>
+                            <span class="submission-text">Parking meters that don't give change</span>
+                            <span class="submission-meta">Yesterday • pending</span>
+                        </li>
+                    </ul>
+                </div>
+            </article>
+
+            <article id="current-gripes">
+                <h2>Current Gripes</h2>
+                <form hx-post="/admin/gripes"
+                    hx-target="#gripes"
+                    hx-swap="outerHTML">
+                    <div class="form-group">
+                        <label for="gripe">Add a new gripe:</label>
+                        <textarea id="gripe" name="gripe" required></textarea>
+                    </div>
+                    <button type="submit" class="submit-form-btn">Add</button>
+                </form>
+
+                <div id="gripes">
+                    <ul>
+                        <li>
+                            <span>Empty storefronts on the Downtown Mall.</span>
+                            <button class="delete-btn"
+                                    hx-delete="/admin/gripes/1"
+                                    hx-target="#gripes"
+                                    hx-swap="outerHTML">
+                                Delete
+                            </button>
+                        </li>
+                        <li>
+                            <span>UVA officially takes possession of FEI.</span>
+                            <button class="delete-btn"
+                                    hx-delete="/admin/gripes/2"
+                                    hx-target="#gripes"
+                                    hx-swap="outerHTML">
+                                Delete
+                            </button>
+                        </li>
+                        <li>
+                            <span>John McGuire.</span>
+                            <button class="delete-btn"
+                                    hx-delete="/admin/gripes/3"
+                                    hx-target="#gripes"
+                                    hx-swap="outerHTML">
+                                Delete
+                            </button>
+                        </li>
+                    </ul>
+                </div>
+            </article>
+        </section>
+
+        <nav aria-label="Admin navigation">
+            <a href="/" class="nav-btn">← Back to Public Page</a>
+        </nav>
+    </main>
+</body>
+</html>

@@ -1,0 +1,13 @@
+<ul>
+  {% for gripe in gripes %}
+    <li>
+      <span>{{ gripe.text }}</span>
+      <button class="delete-btn"
+              hx-delete="/admin/gripes/{{ gripe.id }}"
+              hx-target="#gripes"
+              hx-swap="outerHTML">
+        Delete
+      </button>
+    </li>
+  {% endfor %}
+</ul>
