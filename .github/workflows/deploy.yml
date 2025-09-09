@@ -19,7 +19,7 @@ jobs:
         echo "${{ secrets.KNOWN_HOSTS }}" >> ~/.ssh/known_hosts
 
     - name: Deploy with rsync
-      run: rsync -avz --delete -e "ssh -p 65002" ./ ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }}:/var/www/cvile/html
+      run: rsync -avz --delete -e "ssh" ./ ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }}:/var/www/cvile/html
 
     - name: Restart OpenLiteSpeed
-      run: ssh -p 65002 ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }} "sudo systemctl restart lsws"
+      run: ssh ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }} "sudo systemctl restart lsws"
