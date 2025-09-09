@@ -102,5 +102,7 @@ def requires_auth(f):
 @app.get("/gripes")
 @requires_auth
 def admin_page():
-    return render_template("admin.html", gripes=load_gripes())
+    gripes = load_gripes(GRIPES_FILE)
+    submissions = load_gripes(SUBMISSIONS_FILE)
+    return render_template("admin.html", gripes=gripes, submissions=submissions)
 

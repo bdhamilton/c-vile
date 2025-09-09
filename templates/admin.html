@@ -179,18 +179,17 @@
                 <h2>Recent Submissions</h2>
                 <div class="submissions-list">
                     <ul>
+                        {% for submission in submissions %}
                         <li>
-                            <span class="submission-text">People who don't pick up after their dogs</span>
-                            <span class="submission-meta">2 hours ago • pending</span>
+                            <span class="submission-text">{{ submission.text }}</span>
+                            <span class="submission-meta">{{ submission.timestamp }} • {{ submission.status }}</span>
                         </li>
+                        {% else %}
                         <li>
-                            <span class="submission-text">Construction noise at 6 AM</span>
-                            <span class="submission-meta">4 hours ago • pending</span>
+                            <span class="submission-text">No submissions yet.</span>
+                            <span class="submission-meta">—</span>
                         </li>
-                        <li>
-                            <span class="submission-text">Parking meters that don't give change</span>
-                            <span class="submission-meta">Yesterday • pending</span>
-                        </li>
+                        {% endfor %}
                     </ul>
                 </div>
             </article>
@@ -209,33 +208,21 @@
 
                 <div id="gripes">
                     <ul>
+                        {% for gripe_id, gripe_text in gripes.items() %}
                         <li>
-                            <span>Empty storefronts on the Downtown Mall.</span>
+                            <span>{{ gripe_text }}</span>
                             <button class="delete-btn"
-                                    hx-delete="/admin/gripes/1"
+                                    hx-delete="/admin/gripes/{{ gripe_id }}"
                                     hx-target="#gripes"
                                     hx-swap="outerHTML">
                                 Delete
                             </button>
                         </li>
+                        {% else %}
                         <li>
-                            <span>UVA officially takes possession of FEI.</span>
-                            <button class="delete-btn"
-                                    hx-delete="/admin/gripes/2"
-                                    hx-target="#gripes"
-                                    hx-swap="outerHTML">
-                                Delete
-                            </button>
+                            <span>No gripes yet.</span>
                         </li>
-                        <li>
-                            <span>John McGuire.</span>
-                            <button class="delete-btn"
-                                    hx-delete="/admin/gripes/3"
-                                    hx-target="#gripes"
-                                    hx-swap="outerHTML">
-                                Delete
-                            </button>
-                        </li>
+                        {% endfor %}
                     </ul>
                 </div>
             </article>
