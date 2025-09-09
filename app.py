@@ -5,7 +5,6 @@ import json
 import os
 import bleach
 from functools import wraps
-import base64
 
 app = Flask(__name__)
 
@@ -13,11 +12,11 @@ app = Flask(__name__)
 # CONFIG
 # --------------------
 
-SUBMISSIONS_FILE = "submissions.json"
-GRIPES_FILE = "gripes.json"
+SUBMISSIONS_FILE = os.getenv('SUBMISSIONS_FILE', 'submissions.json')
+GRIPES_FILE = os.getenv('GRIPES_FILE', 'gripes.json')
 
-ADMIN_USER = "gripemaster"
-ADMIN_PASS = "I love to gripe!"
+ADMIN_USER = os.getenv('ADMIN_USER', 'gripemaster')
+ADMIN_PASS = os.getenv('ADMIN_PASS', 'test')
 
 # --------------------
 # FILE PERSISTENCE
