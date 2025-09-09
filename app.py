@@ -12,8 +12,8 @@ app = Flask(__name__)
 # CONFIG
 # --------------------
 
-SUBMISSIONS_FILE = os.getenv('SUBMISSIONS_FILE', 'submissions.json')
-GRIPES_FILE = os.getenv('GRIPES_FILE', 'gripes.json')
+SUBMISSIONS_FILE = os.getenv('SUBMISSIONS_FILE', 'data/submissions.json')
+GRIPES_FILE = os.getenv('GRIPES_FILE', 'data/gripes.json')
 
 ADMIN_USER = os.getenv('ADMIN_USER', 'gripemaster')
 ADMIN_PASS = os.getenv('ADMIN_PASS', 'test')
@@ -49,7 +49,8 @@ def gripe():
 
 @app.route("/random-gripe")
 def get_a_gripe():
-    return random.choice(gripes)
+    gripes = load_gripes()
+    return random.choice(list(gripes.values()))
 
 @app.post("/submit-a-gripe")
 def submit_a_gripe():
@@ -103,20 +104,3 @@ def requires_auth(f):
 def admin_page():
     return render_template("admin.html", gripes=load_gripes())
 
-gripes = [
-    'Empty storefronts on the Downtown Mall.',
-    'UVA officially takes possession of FEI.',
-    'John McGuire.',
-    'Former UVA prez Jim Ryan moves out of Carr’s Hill.',
-    'Police Civilian Review Board executive director resigns.',
-    'Alakazam Toys closes.',
-    'UVA students return to Grounds.',
-    'Rush hour on the bypass.',
-    'C&O bar closed all summer.',
-    'Poop on the Downtown Mall.',
-    'Yogaville lawsuit.',
-    'New speeding cameras.',
-    'Spotted lanternflies.',
-    'Characters on “The Summer I Turned Pretty” asking, “Who’s Dave Matthews?”',
-    'Zoning code debacle.'
-]
