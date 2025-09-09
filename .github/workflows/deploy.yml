@@ -22,5 +22,8 @@ jobs:
     - name: Deploy with rsync
       run: rsync -avz --delete -e "ssh" ./ ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }}:/var/www/cvile/html
 
+    - name: Install dependencies
+      run: ssh ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }} "cd /var/www/cvile && source venv/bin/activate && pip install -r html/requirements.txt"
+
     - name: Restart OpenLiteSpeed
       run: ssh ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }} "sudo systemctl restart lsws"
