@@ -151,8 +151,16 @@
         }
 
         .submissions-list li {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
             padding: 0.75rem 0;
             border-bottom: 1px solid #ccc;
+        }
+
+        .submissions-list li div {
+            flex: 1;
+            margin-right: 1rem;
         }
 
         .submission-text {
@@ -177,21 +185,7 @@
         <section>
             <article id="recent-submissions">
                 <h2>Recent Submissions</h2>
-                <div class="submissions-list">
-                    <ul>
-                        {% for submission in submissions %}
-                        <li>
-                            <span class="submission-text">{{ submission.text }}</span>
-                            <span class="submission-meta">{{ submission.timestamp }} • {{ submission.status }}</span>
-                        </li>
-                        {% else %}
-                        <li>
-                            <span class="submission-text">No submissions yet.</span>
-                            <span class="submission-meta">—</span>
-                        </li>
-                        {% endfor %}
-                    </ul>
-                </div>
+                {% include '_submissions_list.html' %}
             </article>
 
             <article id="current-gripes">

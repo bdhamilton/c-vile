@@ -106,3 +106,15 @@ def admin_page():
     submissions = load_gripes(SUBMISSIONS_FILE)
     return render_template("admin.html", gripes=gripes, submissions=submissions)
 
+@app.delete("/admin/submissions/<int:submission_index>")
+@requires_auth
+def delete_submission(submission_index):
+    submissions = load_gripes(SUBMISSIONS_FILE)
+    
+    if 0 <= submission_index < len(submissions):
+        del submissions[submission_index]
+        save_gripes(submissions, SUBMISSIONS_FILE)
+    
+    # Return updated submissions list partial
+    return render_template("_submissions_list.html", submissions=submissions)
+
