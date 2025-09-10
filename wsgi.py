@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 import sys
-import os
 from dotenv import load_dotenv
 
 sys.path.insert(0, '/var/www/cvile/html')

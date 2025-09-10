@@ -25,5 +25,10 @@ jobs:
     - name: Install dependencies
       run: ssh ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }} "cd /var/www/cvile && source venv/bin/activate && pip install -r html/requirements.txt"
 
-    - name: Restart OpenLiteSpeed
-      run: ssh ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }} "sudo systemctl restart lsws"
+    - name: Restart Flask App
+      run: |
+        ssh ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }} "
+          sudo systemctl stop lsws
+          sudo pkill -f 'cvile.*wsgi.py' || true
+          sudo systemctl start lsws
+        "
