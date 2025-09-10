@@ -29,6 +29,6 @@ jobs:
       run: |
         ssh ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }} "
           sudo systemctl stop lsws
-          sudo pkill -f 'cvile.*wsgi.py' || true
+          sudo kill lswsgi || true
           sudo systemctl start lsws
         "
