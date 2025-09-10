@@ -1,0 +1,23 @@
+<div class="submissions-list" id="submissions-list">
+    <ul>
+        {% for submission in submissions %}
+        <li>
+            <div>
+                <span class="submission-text">{{ submission.text }}</span>
+                <span class="submission-meta">{{ submission.timestamp }} • {{ submission.status }}</span>
+            </div>
+            <button class="delete-btn"
+                    hx-delete="/admin/submissions/{{ loop.index0 }}"
+                    hx-target="#submissions-list"
+                    hx-swap="outerHTML">
+                Delete
+            </button>
+        </li>
+        {% else %}
+        <li>
+            <span class="submission-text">No submissions yet.</span>
+            <span class="submission-meta">—</span>
+        </li>
+        {% endfor %}
+    </ul>
+</div>
