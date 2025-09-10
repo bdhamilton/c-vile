@@ -104,5 +104,7 @@ def requires_auth(f):
 def admin_page():
     gripes = load_gripes(GRIPES_FILE)
     submissions = load_gripes(SUBMISSIONS_FILE)
+    print(f"Submissions file: {SUBMISSIONS_FILE}")
+    print(f"Found {len(submissions)} submissions.")
     return render_template("admin.html", gripes=gripes, submissions=submissions)
 
