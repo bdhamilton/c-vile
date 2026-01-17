@@ -192,33 +192,17 @@
                 <h2>Current Gripes</h2>
                 <form hx-post="/admin/gripes"
                     hx-target="#gripes"
-                    hx-swap="outerHTML">
+                    hx-swap="outerHTML"
+                    hx-on::after-request="this.reset(); this.querySelector('textarea').focus()">
                     <div class="form-group">
                         <label for="gripe">Add a new gripe:</label>
-                        <textarea id="gripe" name="gripe" required></textarea>
+                        <textarea id="gripe" name="gripe" required
+                            hx-on:keydown="if(event.key === 'Enter' && !event.shiftKey) { event.preventDefault(); this.form.requestSubmit(); }"></textarea>
                     </div>
                     <button type="submit" class="submit-form-btn">Add</button>
                 </form>
 
-                <div id="gripes">
-                    <ul>
-                        {% for gripe_id, gripe_text in gripes.items() %}
-                        <li>
-                            <span>{{ gripe_text }}</span>
-                            <button class="delete-btn"
-                                    hx-delete="/admin/gripes/{{ gripe_id }}"
-                                    hx-target="#gripes"
-                                    hx-swap="outerHTML">
-                                Delete
-                            </button>
-                        </li>
-                        {% else %}
-                        <li>
-                            <span>No gripes yet.</span>
-                        </li>
-                        {% endfor %}
-                    </ul>
-                </div>
+                {% include '_gripes_list.html' %}
             </article>
         </section>
 

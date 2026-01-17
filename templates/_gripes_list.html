@@ -1,0 +1,19 @@
+<div id="gripes">
+    <ul>
+        {% for gripe_id, gripe_text in gripes.items()|reverse %}
+        <li>
+            <span>{{ gripe_text }}</span>
+            <button class="delete-btn"
+                    hx-delete="/admin/gripes/{{ gripe_id }}"
+                    hx-target="#gripes"
+                    hx-swap="outerHTML">
+                Delete
+            </button>
+        </li>
+        {% else %}
+        <li>
+            <span>No gripes yet.</span>
+        </li>
+        {% endfor %}
+    </ul>
+</div>
