@@ -40,6 +40,11 @@ section article {
     padding: 0 0.5rem;
 }
 
+#gripe a {
+    color: inherit;
+    text-decoration: underline;
+}
+
 nav {
     display: flex;
     justify-content: center;

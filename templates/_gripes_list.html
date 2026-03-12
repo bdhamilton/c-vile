@@ -3,7 +3,7 @@
         {% for gripe_id, gripe in gripes.items()|reverse %}
         <li>
             <div>
-                <span>{{ gripe.text }}</span>
+                <span>{{ gripe.text | safe }}</span>
                 {% if gripe.added %}
                 <span class="gripe-meta">Added {{ gripe.added | friendly_date }}</span>
                 {% endif %}

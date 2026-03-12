@@ -1,4 +1,5 @@
 import random
+import re
 import string
 from datetime import datetime
 from flask import Flask, render_template, request, Response
@@ -138,13 +139,22 @@ def generate_gripe_id(existing_ids, length=6):
             return new_id
 
 
+def clean_admin_gripe(text):
+    """Sanitize admin gripe text, allowing links via HTML or markdown syntax."""
+    # Convert markdown links [text](url) to <a> tags
+    text = re.sub(r'\[([^\]]+)\]\(([^)]+)\)', r'<a href="\2">\1</a>', text)
+    # Allow only <a> tags with href, strip everything else
+    cleaned = bleach.clean(text, tags=['a'], attributes={'a': ['href']}, strip=True)
+    # Add target and rel to all links
+    return cleaned.replace('<a ', '<a target="_blank" rel="noopener" ')
+
 @app.post("/admin/gripes")
 @requires_auth
 def add_gripe():
     gripe_text = request.form.get('gripe', '').strip()
 
     if gripe_text:
-        clean_gripe = bleach.clean(gripe_text, tags=[], strip=True)
+        clean_gripe = clean_admin_gripe(gripe_text)
         gripes = load_gripes(GRIPES_FILE)
 
         new_id = generate_gripe_id(gripes.keys())
