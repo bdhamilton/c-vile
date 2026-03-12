@@ -3,8 +3,8 @@
         {% for gripe_id, gripe in gripes.items()|reverse %}
         <li>
             <div>
-                <span>{{ gripe.text if gripe is mapping else gripe }}</span>
-                {% if gripe is mapping and gripe.added %}
+                <span>{{ gripe.text }}</span>
+                {% if gripe.added %}
                 <span class="gripe-meta">Added {{ gripe.added | friendly_date }}</span>
                 {% endif %}
             </div>

@@ -54,14 +54,10 @@ def save_gripes(data, filename = GRIPES_FILE):
 def gripe():
     return render_template('index.html')
 
-def gripe_text(value):
-    """Extract text from a gripe value (handles both old string and new dict format)"""
-    return value['text'] if isinstance(value, dict) else value
-
 @app.route("/random-gripe")
 def get_a_gripe():
     gripes = load_gripes()
-    return gripe_text(random.choice(list(gripes.values())))
+    return random.choice(list(gripes.values()))['text']
 
 @app.post("/submit-a-gripe")
 def submit_a_gripe():
