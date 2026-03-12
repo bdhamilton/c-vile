@@ -9,6 +9,12 @@ from functools import wraps
 
 app = Flask(__name__)
 
+@app.template_filter('friendly_date')
+def friendly_date(iso_string):
+    """Format an ISO date string as 'May 23, 2025'"""
+    dt = datetime.fromisoformat(iso_string)
+    return dt.strftime('%B %-d, %Y')
+
 # --------------------
 # CONFIG
 # --------------------
@@ -48,10 +54,14 @@ def save_gripes(data, filename = GRIPES_FILE):
 def gripe():
     return render_template('index.html')
 
+def gripe_text(value):
+    """Extract text from a gripe value (handles both old string and new dict format)"""
+    return value['text'] if isinstance(value, dict) else value
+
 @app.route("/random-gripe")
 def get_a_gripe():
     gripes = load_gripes()
-    return random.choice(list(gripes.values()))
+    return gripe_text(random.choice(list(gripes.values())))
 
 @app.post("/submit-a-gripe")
 def submit_a_gripe():
@@ -142,7 +152,10 @@ def add_gripe():
         gripes = load_gripes(GRIPES_FILE)
 
         new_id = generate_gripe_id(gripes.keys())
-        gripes[new_id] = clean_gripe
+        gripes[new_id] = {
+            'text': clean_gripe,
+            'added': datetime.now().isoformat()
+        }
         save_gripes(gripes, GRIPES_FILE)
     else:
         gripes = load_gripes(GRIPES_FILE)

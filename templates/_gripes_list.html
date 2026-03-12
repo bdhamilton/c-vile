@@ -1,8 +1,13 @@
 <div id="gripes">
     <ul>
-        {% for gripe_id, gripe_text in gripes.items()|reverse %}
+        {% for gripe_id, gripe in gripes.items()|reverse %}
         <li>
-            <span>{{ gripe_text }}</span>
+            <div>
+                <span>{{ gripe.text if gripe is mapping else gripe }}</span>
+                {% if gripe is mapping and gripe.added %}
+                <span class="gripe-meta">Added {{ gripe.added | friendly_date }}</span>
+                {% endif %}
+            </div>
             <button class="delete-btn"
                     hx-delete="/admin/gripes/{{ gripe_id }}"
                     hx-target="#gripes"
