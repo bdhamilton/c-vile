@@ -179,6 +179,20 @@
             font-size: 0.8em;
             color: #777;
         }
+
+        .admin-tip {
+            font-size: 0.85em;
+            color: #777;
+            background: #efefdf;
+            padding: 0.5rem 0.75rem;
+            margin-top: 0;
+            margin-bottom: 1rem;
+        }
+
+        .admin-tip code {
+            background: #e0e0d0;
+            padding: 0.1rem 0.3rem;
+        }
     </style>
 </head>
 <body>
@@ -197,6 +211,7 @@
 
             <article id="current-gripes">
                 <h2>Current Gripes</h2>
+                <p class="admin-tip">You can add links to gripes: <code>[link text](https://url)</code></p>
                 <form hx-post="/admin/gripes"
                     hx-target="#gripes"
                     hx-swap="outerHTML"
