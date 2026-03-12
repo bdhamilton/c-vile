@@ -33,7 +33,7 @@ def load_gripes(filename = GRIPES_FILE):
     """Load JSON file, return empty list if file doesn't exist or is empty"""
     try:
         if os.path.exists(filename):
-            with open(filename, 'r') as f:
+            with open(filename, 'r', encoding='utf-8') as f:
                 content = f.read().strip()
                 if content:
                     return json.loads(content)
@@ -43,7 +43,7 @@ def load_gripes(filename = GRIPES_FILE):
 
 def save_gripes(data, filename = GRIPES_FILE):
     """Save data to JSON file"""
-    with open(filename, 'w') as f:
+    with open(filename, 'w', encoding='utf-8') as f:
         json.dump(data, f, indent=2)
 
 # --------------------
