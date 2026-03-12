@@ -52,6 +52,20 @@ nav {
     padding: 1rem;
 }
 
+@media (max-width: 767px) {
+    nav {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: #f8f8e8;
+    }
+
+    main {
+        padding-bottom: 4.5rem;
+    }
+}
+
 nav button {
     padding: 0.75rem 1.25rem;
     font-size: 1rem;
