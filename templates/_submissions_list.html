@@ -1,13 +1,13 @@
 <div class="submissions-list" id="submissions-list">
     <ul>
-        {% for submission in submissions %}
+        {% for id, submission in submissions.items() %}
         <li>
             <div>
                 <span class="submission-text">{{ submission.text }}</span>
                 <span class="submission-meta">{{ submission.timestamp }} • {{ submission.status }}</span>
             </div>
             <button class="delete-btn"
-                    hx-delete="/admin/submissions/{{ loop.index0 }}"
+                    hx-delete="/admin/submissions/{{ id }}"
                     hx-target="#submissions-list"
                     hx-swap="outerHTML">
                 Delete

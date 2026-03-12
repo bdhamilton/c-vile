@@ -67,7 +67,10 @@ def submit_a_gripe():
         }
 
         submissions = load_gripes(SUBMISSIONS_FILE)
-        submissions.append(submission)
+        if not isinstance(submissions, dict):
+            submissions = {}
+        new_id = generate_gripe_id(submissions.keys())
+        submissions[new_id] = submission
         save_gripes(submissions, SUBMISSIONS_FILE)
 
     return '<div id="gripe-alert">Thanks for griping.</div>'
@@ -107,13 +110,13 @@ def admin_page():
     submissions = load_gripes(SUBMISSIONS_FILE)
     return render_template("admin.html", gripes=gripes, submissions=submissions)
 
-@app.delete("/admin/submissions/<int:submission_index>")
+@app.delete("/admin/submissions/<submission_id>")
 @requires_auth
-def delete_submission(submission_index):
+def delete_submission(submission_id):
     submissions = load_gripes(SUBMISSIONS_FILE)
 
-    if 0 <= submission_index < len(submissions):
-        del submissions[submission_index]
+    if submission_id in submissions:
+        del submissions[submission_id]
         save_gripes(submissions, SUBMISSIONS_FILE)
 
     # Return updated submissions list partial
