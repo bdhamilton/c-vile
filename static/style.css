@@ -54,6 +54,57 @@ nav button {
     cursor: pointer;
 }
 
+dialog {
+    border: 1px solid black;
+    padding: 2rem;
+    max-width: 420px;
+    width: 90%;
+    background: #f8f8e8;
+    font-family: system-ui, sans-serif;
+}
+
+dialog::backdrop {
+    background: rgba(0, 0, 0, 0.5);
+}
+
+dialog label {
+    display: block;
+    font-size: 1.25rem;
+    font-weight: bold;
+    margin-bottom: 0.75rem;
+}
+
+dialog textarea {
+    width: 100%;
+    font-family: system-ui, sans-serif;
+    font-size: 1rem;
+    padding: 0.75rem;
+    border: 1px solid black;
+    background: white;
+    resize: vertical;
+    box-sizing: border-box;
+}
+
+.modal-buttons {
+    display: flex;
+    justify-content: flex-end;
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.modal-buttons button {
+    padding: 0.75rem 1.5rem;
+    font-size: 1rem;
+    background: none;
+    border: 1px solid black;
+    cursor: pointer;
+}
+
+.modal-buttons button[type="submit"] {
+    background: pink;
+    font-weight: bold;
+}
+
 #gripe-alert {
     opacity: 1;
     animation: fadeOut 3s forwards;

@@ -21,21 +21,30 @@
         </section>
 
         <nav aria-label="Main navigation">
-            <button 
-                hx-post="/submit-a-gripe" 
-                hx-prompt="What's your gripe?"
-                hx-target="body"
-                hx-swap="beforeend">
-                    Submit your own
+            <button onclick="document.getElementById('submit-modal').showModal()">
+                Submit your own
             </button>
 
-            <button 
-                hx-get="/random-gripe" 
-                hx-target="#gripe" 
+            <button
+                hx-get="/random-gripe"
+                hx-target="#gripe"
                 hx-swap="innerText">
                     Another →
             </button>
         </nav>
     </main>
+
+    <dialog id="submit-modal">
+        <form hx-post="/submit-a-gripe" hx-target="body" hx-swap="beforeend"
+              onsubmit="this.closest('dialog').close(); this.reset();">
+            <label for="gripe-input">What's your gripe?</label>
+            <textarea id="gripe-input" name="gripe" rows="3" maxlength="500"
+                      placeholder="Go ahead, let it out..." required></textarea>
+            <div class="modal-buttons">
+                <button type="button" onclick="this.closest('dialog').close()">Nevermind</button>
+                <button type="submit">Gripe!</button>
+            </div>
+        </form>
+    </dialog>
 </body>
 </html>

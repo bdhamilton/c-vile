@@ -55,8 +55,8 @@ def get_a_gripe():
 
 @app.post("/submit-a-gripe")
 def submit_a_gripe():
-    gripe = request.headers.get('HX-Prompt')
-    
+    gripe = request.form.get('gripe', '')
+
     if gripe and gripe.strip():
         clean_gripe = bleach.clean(gripe.strip(), tags=[], strip=True)
 
