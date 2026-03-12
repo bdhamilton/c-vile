@@ -57,11 +57,12 @@ nav button {
 
 dialog {
     border: 1px solid black;
-    padding: 2rem;
+    padding: 1.5rem;
     max-width: 420px;
     width: 90%;
     background: #f8f8e8;
     font-family: system-ui, sans-serif;
+    box-sizing: border-box;
 }
 
 dialog::backdrop {
