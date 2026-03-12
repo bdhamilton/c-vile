@@ -211,7 +211,6 @@
 
             <article id="current-gripes">
                 <h2>Current Gripes</h2>
-                <p class="admin-tip">You can add links to gripes: <code>[link text](https://url)</code></p>
                 <form hx-post="/admin/gripes"
                     hx-target="#gripes"
                     hx-swap="outerHTML"
@@ -220,6 +219,7 @@
                         <label for="gripe">Add a new gripe:</label>
                         <textarea id="gripe" name="gripe" required
                             hx-on:keydown="if(event.key === 'Enter' && !event.shiftKey) { event.preventDefault(); this.form.requestSubmit(); }"></textarea>
+                        <p class="admin-tip">Links: <code>[link text](https://url)</code></p>
                     </div>
                     <button type="submit" class="submit-form-btn">Add</button>
                 </form>
