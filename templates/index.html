@@ -50,6 +50,20 @@
             document.getElementById('submit-modal').close();
             this.reset();
         });
+
+        (function() {
+            var startX;
+            var gripe = document.getElementById('gripe');
+            document.addEventListener('touchstart', function(e) {
+                startX = e.touches[0].clientX;
+            });
+            document.addEventListener('touchend', function(e) {
+                var dx = e.changedTouches[0].clientX - startX;
+                if (Math.abs(dx) > 50) {
+                    htmx.ajax('GET', '/random-gripe', {target: gripe, swap: 'innerText'});
+                }
+            });
+        })();
     </script>
 </body>
 </html>
