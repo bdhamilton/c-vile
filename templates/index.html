@@ -35,8 +35,7 @@
     </main>
 
     <dialog id="submit-modal">
-        <form hx-post="/submit-a-gripe" hx-target="body" hx-swap="beforeend"
-              onsubmit="this.closest('dialog').close(); this.reset();">
+        <form id="submit-form" hx-post="/submit-a-gripe" hx-target="body" hx-swap="beforeend">
             <label for="gripe-input">What's your gripe?</label>
             <textarea id="gripe-input" name="gripe" rows="3" maxlength="500"
                       placeholder="Go ahead, let it out..." required></textarea>
@@ -46,5 +45,11 @@
             </div>
         </form>
     </dialog>
+    <script>
+        document.getElementById('submit-form').addEventListener('htmx:afterRequest', function() {
+            document.getElementById('submit-modal').close();
+            this.reset();
+        });
+    </script>
 </body>
 </html>
