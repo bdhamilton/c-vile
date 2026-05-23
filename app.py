@@ -20,6 +20,8 @@ def friendly_date(iso_string):
 # CONFIG
 # --------------------
 
+os.makedirs('data', exist_ok=True)
+
 SUBMISSIONS_FILE = os.getenv('SUBMISSIONS_FILE', 'data/submissions.json')
 GRIPES_FILE = os.getenv('GRIPES_FILE', 'data/gripes.json')
 
